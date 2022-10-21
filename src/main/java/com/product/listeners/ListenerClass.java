@@ -49,7 +49,12 @@ public final class ListenerClass implements ITestListener, ISuiteListener, IRetr
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ExtentReportManager.getTest().skip(result.getMethod().getMethodName() + " skipped");
+
+        if (result.getThrowable().toString().contains("not a valid browser"))
+            ExtentReportManager.getTest().fail(result.getThrowable().toString());
+        else
+            ExtentReportManager.getTest().skip(result.getMethod().getMethodName() + " skipped");
+
     }
 
     public static String getBase64Image() {

@@ -1,6 +1,10 @@
 package com.product.driver;
 
 import com.product.enums.Browser;
+import com.product.exceptions.InvalidBrowserException;
+import com.product.reports.ExtentLogger;
+import com.product.reports.ExtentReport;
+import com.product.reports.ExtentReportManager;
 import com.product.utils.FrameworkConfigs;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.AccessLevel;
@@ -29,7 +33,7 @@ public final class Driver {
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
             } else {
-                throw new Exception("Invalid browser"); // use custom exception
+                throw new InvalidBrowserException(FrameworkConfigs.configs.browser() + " is not a valid browser !!!"); // use custom exception
             }
 
 

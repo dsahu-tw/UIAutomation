@@ -35,7 +35,7 @@ public final class Driver {
 
             DriverManager.setDriver(driver);
             DriverManager.getDriver().get(FrameworkConfigs.configs.url());
-            Thread.sleep(10000);
+
 
         }
 

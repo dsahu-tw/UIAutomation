@@ -37,7 +37,7 @@ It is a boilerplate code for UI automation framework. It is V1.0.It can help any
 * joda-time--> For date time manipulation
 * assertj-joda-time --> For date time assesrtions
 * assertj --> Fluent assesrtions
-* commons-lang3 --> Library to use thread.sleep silently
+
 
 ### Reporting ###
 * Extent report generated at /extent-report-out/

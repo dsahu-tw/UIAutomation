@@ -26,7 +26,7 @@ public final class LoginPage extends BasePage {
 
     public HomePage login() {
         click(btnLogin, WaitStraitgy.CLICKABLE, "login", true);
-        return new HomePage(DriverManager.getDriver());
+        return new HomePage();
     }
 
 

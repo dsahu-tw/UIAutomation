@@ -2,18 +2,8 @@ package com.product.pages;
 
 import com.product.enums.WaitStraitgy;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
 public final class HomePage extends BasePage {
-
-    private final WebDriver d;
-
-    public HomePage(WebDriver driver) {
-        this.d = driver;
-        PageFactory.initElements(driver, this);
-
-    }
 
 
     private final By dropdownUser = By.xpath("//span[@class='oxd-userdropdown-tab']");

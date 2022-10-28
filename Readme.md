@@ -60,3 +60,12 @@ It is a boilerplate code for UI automation framework. It is V1.0.It can help any
 
 
 
+### Integration with Docker ###
+* * As of now dockers need to started manually. Later it will be automated.
+*  /test/resources/docker/docker-compose.yaml deploys selenium grid docker and register one instance of Chrome,Firefox and Edge browser nodes
+* Important commands 
+* * docker-compose up/down -d --> To up or down dockers
+* * docker-compose logs -f -t  --> To see logs
+* * docker-compose up --scale chrome=3 --> To scale specific service(increase number of node instances )
+
+

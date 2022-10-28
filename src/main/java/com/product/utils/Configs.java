@@ -29,6 +29,9 @@ public interface Configs extends Config {
 
     @DefaultValue("chrome")
     String browser();
+
+    @DefaultValue("remote")
+    String executionType();
 }
 
 

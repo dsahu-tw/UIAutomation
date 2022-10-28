@@ -35,7 +35,8 @@ public final class LoggingTests extends BaseTest { //final keyword to avoid exte
     @DataProvider(name = "dp_test1", parallel = true)
     public Object[][] data() {
         return new Object[][]{{"admin", "admin123", "OrangeHRM"},
-                {"admin1", "admin123", "OrangeHRM"}
+                {"admin1", "admin123", "OrangeHRM"},
+                {"admin", "admin123", "OrangeHRM"}
         };
     }
 

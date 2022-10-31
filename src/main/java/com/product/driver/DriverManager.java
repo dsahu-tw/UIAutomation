@@ -13,7 +13,7 @@ public class DriverManager {
         return threadSafeDriver.get(); //to get webdriver. Thread saftey will come by default
     }
 
-    public static void setDriver(WebDriver dr) {
+    protected static void setDriver(WebDriver dr) {
         threadSafeDriver.set(dr);
     }
 

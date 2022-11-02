@@ -27,6 +27,9 @@ It is a boilerplate code for UI automation framework. It is V1.0.It can help any
 ### How to set up or run? ###
 * Clone the repo
 * From the root directory run `mvn clean test -PAll` to run all test cases
+* browser, environment,failedTestRetryCount,executionType can be passed from mvn commandline. If not passed from mvn
+commandline then default values mentioned in config file will be considered.
+* `mvn clean test -PAll -Denvironment=dev -Dbrowser=firefox -DexecutionType=remote -DfailedTestRetryCount=1`
 * All dependencies are included in pox.xml. Java 11 is required to run this application.
 
 ### Major external libraries used in the application ###

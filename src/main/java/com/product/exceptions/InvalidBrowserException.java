@@ -8,8 +8,6 @@ import lombok.Setter;
 public class InvalidBrowserException extends Exception {
     public InvalidBrowserException(String msg) {
         super(msg);
-
-
     }
 
 }

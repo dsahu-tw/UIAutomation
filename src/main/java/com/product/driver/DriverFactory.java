@@ -2,6 +2,7 @@ package com.product.driver;
 
 import com.product.enums.Browser;
 import com.product.exceptions.InvalidBrowserException;
+import com.product.utils.CommonUtils;
 import com.product.utils.FrameworkConfigs;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.AccessLevel;
@@ -15,8 +16,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+import java.util.Objects;
 
-import static org.openqa.selenium.remote.BrowserType.*;
+import static com.product.enums.Browser.CHROME;
+import static com.product.enums.Browser.EDGE;
+import static com.product.enums.Browser.FIREFOX;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DriverFactory {
@@ -25,40 +29,64 @@ public final class DriverFactory {
     @SneakyThrows
     public static WebDriver getDriver(String browser) {
 
-        String executionType = FrameworkConfigs.configs.executionType();
-        URL hubUrl = new URL("http://localhost:4444/");
+        String executionType = getExecutionType();
+        DesiredCapabilities cap = new DesiredCapabilities();
 
+        switch (mapBrowserName(browser)) {
+            case CHROME:
+                if (executionType.equalsIgnoreCase("remote")) {
+                    cap.setBrowserName(CHROME.toString().toLowerCase());
+                    URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
+                    driver = new RemoteWebDriver(hubUrl, cap);
+                } else {
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+                }
 
-        if (browser.equalsIgnoreCase(Browser.CHROME.toString())) {
-            if (executionType.equalsIgnoreCase("remote")) {
-                DesiredCapabilities cap = new DesiredCapabilities();
-                cap.setBrowserName(CHROME);
-                driver = new RemoteWebDriver(hubUrl, cap);
-            } else {
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-            }
-        } else if (browser.equalsIgnoreCase(Browser.FIREFOX.toString())) {
-            if (executionType.equalsIgnoreCase("remote")) {
-                DesiredCapabilities cap = new DesiredCapabilities();
-                cap.setBrowserName(FIREFOX);
-                driver = new RemoteWebDriver(hubUrl, cap);
-            } else {
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-            }
-        } else if (browser.equalsIgnoreCase(Browser.EDGE.toString())) {
-            if (executionType.equalsIgnoreCase("remote")) {
-                DesiredCapabilities cap = new DesiredCapabilities();
-                cap.setBrowserName(EDGE);
-                driver = new RemoteWebDriver(hubUrl, cap);
-            } else {
-                WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
-            }
-        } else {
-            throw new InvalidBrowserException(FrameworkConfigs.configs.browser() + " is not a valid browser !!!"); // use custom exception
+                break;
+            case FIREFOX:
+                if (executionType.equalsIgnoreCase("remote")) {
+                    cap.setBrowserName(FIREFOX.toString().toLowerCase());
+                    URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
+                    driver = new RemoteWebDriver(hubUrl, cap);
+                } else {
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                }
+                break;
+            case EDGE:
+                if (executionType.equalsIgnoreCase("remote")) {
+                    cap.setBrowserName(EDGE.toString().toLowerCase());
+                    URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
+                    driver = new RemoteWebDriver(hubUrl, cap);
+                } else {
+                    WebDriverManager.edgedriver().setup();
+                    driver = new EdgeDriver();
+                }
+                break;
+            default:
+                throw new InvalidBrowserException(FrameworkConfigs.configs.browser() + " is not a valid browser !!!"); // use custom exception
         }
         return driver;
+
     }
+
+    @SneakyThrows
+    private static Browser mapBrowserName(String browser) {
+        try {
+            return Browser.valueOf(browser.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidBrowserException(FrameworkConfigs.configs.browser() + " is not a valid browser !!!");
+        }
+    }
+
+    @SneakyThrows
+    private static String getExecutionType() {
+        String executionType= CommonUtils.getParameter("executionType");
+        if (Objects.nonNull(executionType) && (!executionType.isEmpty()))
+            return executionType;
+        else
+           return FrameworkConfigs.configs.executionType();
+    }
+
 }

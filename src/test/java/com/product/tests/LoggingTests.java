@@ -36,7 +36,7 @@ public final class LoggingTests extends BaseTest { //final keyword to avoid exte
     public Object[][] data() {
         return new Object[][]{{"admin", "admin123", "OrangeHRM"},
                 {"admin1", "admin123", "OrangeHRM"},
-                {"admin", "admin123", "OrangeHRM"}
+
         };
     }
 

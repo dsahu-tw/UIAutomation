@@ -17,16 +17,21 @@ public final class WaitFactory {
     @SneakyThrows
     public static WebElement performExplicitWait(WaitStraitgy strategy, By by) {
         WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.getExplicitWaitTimeout());
-        if (strategy == WaitStraitgy.CLICKABLE) {
-            return wait.until(ExpectedConditions.elementToBeClickable(by));
-        } else if (strategy == WaitStraitgy.VISIBLE) {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-        } else if (strategy == WaitStraitgy.PRESENCE) {
-            return wait.until(ExpectedConditions.presenceOfElementLocated(by));
-        } else {
-            return DriverManager.getDriver().findElement(by);
+        WebElement element;
+        switch (strategy) {
+            case VISIBLE:
+                element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+                break;
+            case PRESENCE:
+                element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+                break;
+            case CLICKABLE:
+                element = wait.until(ExpectedConditions.elementToBeClickable(by));
+                break;
+            default:
+                return DriverManager.getDriver().findElement(by);
         }
-
+        return element;
     }
 
 

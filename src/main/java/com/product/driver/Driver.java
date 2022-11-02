@@ -1,10 +1,10 @@
 package com.product.driver;
 
+import com.product.utils.CommonUtils;
 import com.product.utils.FrameworkConfigs;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.openqa.selenium.WebDriver;
 
 import java.util.Objects;
 
@@ -15,7 +15,12 @@ public final class Driver {
     @SneakyThrows
     public static void initDriver() {
         if (Objects.isNull(DriverManager.getDriver())) {
-            DriverManager.setDriver(DriverFactory.getDriver(FrameworkConfigs.configs.browser()));
+            String dBrowser = CommonUtils.getParameter("browser");
+            if (Objects.nonNull(dBrowser) && (!dBrowser.isEmpty()))
+                DriverManager.setDriver(DriverFactory.getDriver(dBrowser));
+            else
+                DriverManager.setDriver(DriverFactory.getDriver(FrameworkConfigs.configs.browser()));
+
             DriverManager.getDriver().get(FrameworkConfigs.configs.url());
         }
     }
@@ -25,6 +30,7 @@ public final class Driver {
             DriverManager.getDriver().quit();
             DriverManager.unload();
         }
+
     }
 
 }

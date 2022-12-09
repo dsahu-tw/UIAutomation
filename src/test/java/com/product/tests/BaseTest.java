@@ -12,7 +12,6 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUp() {
-
         Driver.initDriver();
 
     }

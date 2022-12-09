@@ -9,7 +9,11 @@ import org.aeonbits.owner.Config;
         "file:${user.dir}/src/test/resources/configs/config.properties"
 })
 public interface Configs extends Config {
+    @DefaultValue("qa")
+    String environment();
+
     @DefaultValue("https://www.google.com/")
+    @Key("${environment}.url")
     String url();
 
     @DefaultValue("No")
@@ -29,6 +33,15 @@ public interface Configs extends Config {
 
     @DefaultValue("chrome")
     String browser();
+
+    @DefaultValue("remote")
+    String executionType();
+
+    @DefaultValue("http://localhost:4444/")
+    @Key("${environment}.hubUrl")
+    String hubUrl();
+
+
 }
 
 

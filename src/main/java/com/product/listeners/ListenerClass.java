@@ -5,12 +5,14 @@ import com.product.annotations.FrameworkAnnotations;
 import com.product.driver.DriverManager;
 import com.product.reports.ExtentReport;
 import com.product.reports.ExtentReportManager;
+import com.product.utils.CommonUtils;
 import com.product.utils.FrameworkConfigs;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.*;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public final class ListenerClass implements ITestListener, ISuiteListener, IRetryAnalyzer {
 
@@ -43,7 +45,7 @@ public final class ListenerClass implements ITestListener, ISuiteListener, IRetr
 
     @Override
     public void onTestFailure(ITestResult result) {
-        ExtentReportManager.getTest().fail(result.getMethod().getMethodName() + " failed", MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64Image()).build());
+        ExtentReportManager.getTest().fail(result.getMethod().getMethodName() + " failed. <<< STACK TRACE >>> "+result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64Image()).build());
 
     }
 
@@ -63,14 +65,17 @@ public final class ListenerClass implements ITestListener, ISuiteListener, IRetr
 
     @Override
     public boolean retry(ITestResult iTestResult) {
-
-        int retry = Integer.parseInt(FrameworkConfigs.configs.failedTestRetryCount());
+        String failedTestRetryCount = CommonUtils.getParameter("failedTestRetryCount");
+        int retry;
+        if (Objects.nonNull(failedTestRetryCount) && (!failedTestRetryCount.isEmpty()))
+            retry = Integer.parseInt(failedTestRetryCount);
+        else
+            retry = Integer.parseInt(FrameworkConfigs.configs.failedTestRetryCount());
 
         if (count < retry) {
             count++;
             return true;
         }
-
         return false;
     }
 }

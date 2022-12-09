@@ -1,18 +1,10 @@
 package com.product.driver;
 
-import com.product.enums.Browser;
-import com.product.exceptions.InvalidBrowserException;
-import com.product.reports.ExtentLogger;
-import com.product.reports.ExtentReport;
-import com.product.reports.ExtentReportManager;
+import com.product.utils.CommonUtils;
 import com.product.utils.FrameworkConfigs;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.Objects;
 
@@ -22,27 +14,16 @@ public final class Driver {
 
     @SneakyThrows
     public static void initDriver() {
-        WebDriver driver;
         if (Objects.isNull(DriverManager.getDriver())) {
-            //System.setProperty("webdriver.chrome.driver", FrameworkConstants.getChromeDriverPath()); //calling this just to show usage of FrameworkConstants
+            String dBrowser = CommonUtils.getParameter("browser");
+            if (Objects.nonNull(dBrowser) && (!dBrowser.isEmpty()))
+                DriverManager.setDriver(DriverFactory.getDriver(dBrowser));
+            else
+                DriverManager.setDriver(DriverFactory.getDriver(FrameworkConfigs.configs.browser()));
 
-            if (FrameworkConfigs.configs.browser().equalsIgnoreCase(Browser.CHROME.toString())) {
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-            } else if (FrameworkConfigs.configs.browser().equalsIgnoreCase(Browser.FIREFOX.toString())) {
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-            } else {
-                throw new InvalidBrowserException(FrameworkConfigs.configs.browser() + " is not a valid browser !!!"); // use custom exception
-            }
-
-
-            DriverManager.setDriver(driver);
+            DriverManager.getDriver().manage().window().maximize();
             DriverManager.getDriver().get(FrameworkConfigs.configs.url());
-
-
         }
-
     }
 
     public static void quitDriver() {
@@ -50,6 +31,7 @@ public final class Driver {
             DriverManager.getDriver().quit();
             DriverManager.unload();
         }
+
     }
 
 }

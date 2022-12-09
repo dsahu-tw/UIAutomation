@@ -18,9 +18,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.URL;
 import java.util.Objects;
 
-import static com.product.enums.Browser.CHROME;
-import static com.product.enums.Browser.EDGE;
-import static com.product.enums.Browser.FIREFOX;
+import static com.product.enums.Browser.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DriverFactory {
@@ -82,11 +80,10 @@ public final class DriverFactory {
 
     @SneakyThrows
     private static String getExecutionType() {
-        String executionType= CommonUtils.getParameter("executionType");
+        String executionType = CommonUtils.getParameter("executionType");
         if (Objects.nonNull(executionType) && (!executionType.isEmpty()))
             return executionType;
         else
-           return FrameworkConfigs.configs.executionType();
+            return FrameworkConfigs.configs.executionType();
     }
-
 }

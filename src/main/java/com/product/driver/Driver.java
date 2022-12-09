@@ -21,6 +21,7 @@ public final class Driver {
             else
                 DriverManager.setDriver(DriverFactory.getDriver(FrameworkConfigs.configs.browser()));
 
+            DriverManager.getDriver().manage().window().maximize();
             DriverManager.getDriver().get(FrameworkConfigs.configs.url());
         }
     }

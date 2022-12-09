@@ -45,7 +45,7 @@ public final class ListenerClass implements ITestListener, ISuiteListener, IRetr
 
     @Override
     public void onTestFailure(ITestResult result) {
-        ExtentReportManager.getTest().fail(result.getMethod().getMethodName() + " failed", MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64Image()).build());
+        ExtentReportManager.getTest().fail(result.getMethod().getMethodName() + " failed. <<< STACK TRACE >>> "+result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64Image()).build());
 
     }
 

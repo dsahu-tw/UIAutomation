@@ -22,7 +22,6 @@ import static com.product.enums.Browser.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class DriverFactory {
-    private  WebDriver driver = null;
 
     @SneakyThrows
     public static  WebDriver getDriver(String browser) {

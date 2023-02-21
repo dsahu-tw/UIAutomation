@@ -14,12 +14,13 @@ public final class Driver {
 
     @SneakyThrows
     public static void initDriver() {
+
         if (Objects.isNull(DriverManager.getDriver())) {
             String dBrowser = CommonUtils.getParameter("browser");
             if (Objects.nonNull(dBrowser) && (!dBrowser.isEmpty()))
-                DriverManager.setDriver(DriverFactory.getDriver(dBrowser));
+                DriverManager.setDriver(new DriverFactory().getDriver(dBrowser));
             else
-                DriverManager.setDriver(DriverFactory.getDriver(FrameworkConfigs.configs.browser()));
+                DriverManager.setDriver(new DriverFactory().getDriver(FrameworkConfigs.configs.browser()));
 
             DriverManager.getDriver().manage().window().maximize();
             DriverManager.getDriver().get(FrameworkConfigs.configs.url());

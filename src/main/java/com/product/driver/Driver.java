@@ -18,9 +18,9 @@ public final class Driver {
         if (Objects.isNull(DriverManager.getDriver())) {
             String dBrowser = CommonUtils.getParameter("browser");
             if (Objects.nonNull(dBrowser) && (!dBrowser.isEmpty()))
-                DriverManager.setDriver(new DriverFactory().getDriver(dBrowser));
+                DriverManager.setDriver(DriverFactory.getDriver(dBrowser));
             else
-                DriverManager.setDriver(new DriverFactory().getDriver(FrameworkConfigs.configs.browser()));
+                DriverManager.setDriver(DriverFactory.getDriver(FrameworkConfigs.configs.browser()));
 
             DriverManager.getDriver().manage().window().maximize();
             DriverManager.getDriver().get(FrameworkConfigs.configs.url());

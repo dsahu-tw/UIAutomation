@@ -25,7 +25,7 @@ public final class DriverFactory {
     private  WebDriver driver = null;
 
     @SneakyThrows
-    public  WebDriver getDriver(String browser) {
+    public static  WebDriver getDriver(String browser) {
 
         String executionType = getExecutionType();
         DesiredCapabilities cap = new DesiredCapabilities();
@@ -35,37 +35,35 @@ public final class DriverFactory {
                 if (executionType.equalsIgnoreCase("remote")) {
                     cap.setBrowserName(CHROME.toString().toLowerCase());
                     URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
-                    this.driver = new RemoteWebDriver(hubUrl, cap);
+                    return new RemoteWebDriver(hubUrl, cap);
                 } else {
                     WebDriverManager.chromedriver().setup();
-                    this.driver = new ChromeDriver();
+                    return   new ChromeDriver();
                 }
 
-                break;
+
             case FIREFOX:
                 if (executionType.equalsIgnoreCase("remote")) {
                     cap.setBrowserName(FIREFOX.toString().toLowerCase());
                     URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
-                    driver = new RemoteWebDriver(hubUrl, cap);
+                    return new RemoteWebDriver(hubUrl, cap);
                 } else {
                     WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
+                    return new FirefoxDriver();
                 }
-                break;
             case EDGE:
                 if (executionType.equalsIgnoreCase("remote")) {
                     cap.setBrowserName(EDGE.toString().toLowerCase());
                     URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
-                    driver = new RemoteWebDriver(hubUrl, cap);
+                    return new RemoteWebDriver(hubUrl, cap);
                 } else {
                     WebDriverManager.edgedriver().setup();
-                    driver = new EdgeDriver();
+                    return new EdgeDriver();
                 }
-                break;
             default:
                 throw new InvalidBrowserException(FrameworkConfigs.configs.browser() + " is not a valid browser !!!"); // use custom exception
         }
-        return driver;
+
 
     }
 

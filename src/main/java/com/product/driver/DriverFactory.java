@@ -20,12 +20,12 @@ import java.util.Objects;
 
 import static com.product.enums.Browser.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class DriverFactory {
-    private static WebDriver driver = null;
+    private  WebDriver driver = null;
 
     @SneakyThrows
-    public static WebDriver getDriver(String browser) {
+    public  WebDriver getDriver(String browser) {
 
         String executionType = getExecutionType();
         DesiredCapabilities cap = new DesiredCapabilities();
@@ -35,10 +35,10 @@ public final class DriverFactory {
                 if (executionType.equalsIgnoreCase("remote")) {
                     cap.setBrowserName(CHROME.toString().toLowerCase());
                     URL hubUrl = new URL(FrameworkConfigs.configs.hubUrl());
-                    driver = new RemoteWebDriver(hubUrl, cap);
+                    this.driver = new RemoteWebDriver(hubUrl, cap);
                 } else {
                     WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
+                    this.driver = new ChromeDriver();
                 }
 
                 break;
